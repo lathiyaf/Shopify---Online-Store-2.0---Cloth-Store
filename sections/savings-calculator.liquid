@@ -1,0 +1,163 @@
+<div class="savings_calculator">
+  <div class="savings_calculator_inner">
+    <div class="savings_calculator_start">
+      <div class="grid grid--1-col grid--2-col-desktop{% if section.settings.image_position == 'Left' %} column_reverse{% endif %}">
+        <div class="grid__item d-flex align-items-center justify-content-center{% if section.settings.bg_shape != blank %} column_bg_shape{% endif %}"{% if section.settings.bg_shape != blank %} style="background-image:url('{{ section.settings.bg_shape }}');"{% endif %}>
+          <div class="savings_calculator_info text-center">
+          	{% if section.settings.title != blank %}
+            <div class="section_header">
+              <h2>{{ section.settings.title }}</h2>
+              {% if section.settings.info != blank %}
+              <div class="richtext">
+                  {{ section.settings.info }}
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+            {% if section.settings.enable_calculator %}
+            <div class="calculator_form">
+              <form>
+                <div class="calculator_form_inner">
+                  {% if section.settings.field_placeholder != blank %}
+                  <div class="form_group mb-3">
+                      <input id="nappiesCount" class="littlelambs_fields" placeholder="{{ section.settings.field_placeholder }}" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                  </div>
+                  {% endif %}
+                  {% if section.settings.btn_label != blank %}
+                  <div class="form_group mb-3">
+                    <button onclick="getNappiesValue();" class="button button--primary w-100" type="button">{{ section.settings.btn_label }}</button>
+                  </div>
+                  {% endif %}
+                </div>
+                <h6 class="py-3 primary_dark_color" id="calculate_response">You'll save £X and you'll save Xkg from landfill.</h6>
+                <div class="richtext fs_14 primary_dark_color"><p>If you use the same nappies on subsequent<br>children, your savings will be tenfold</p></div>
+              </form>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% if section.settings.image != blank %}
+        <div class="grid__item small-hide medium-hide">
+          <div class="savings_calculator_image">
+          	<img src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt }}" />
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if section.settings.enable_calculator %}
+<script>
+  function getNappiesValue(){
+    // Selecting the input element and get its value 
+    var inputVal = document.getElementById("nappiesCount").value;    
+    if (inputVal === '') {        
+    	document.getElementById("calculate_response").innerHTML = "Please enter the number of nappies!";
+    } else {
+        var savedAmount = (inputVal * 5.7);
+        var savedWeight = (inputVal * 6);
+      document.getElementById("calculate_response").innerHTML = `You'll save £${savedAmount} and you'll save ${savedWeight}Kg from landfill.`;
+    }    
+  }
+</script>
+{% endif %}
+
+<style>
+  @media(max-width:767px){
+    .column_bg_shape{
+      background-image:url({{ section.settings.mobile_bg_shape }}) !important;
+      background-size: contain;
+      background-position: bottom;
+      padding-bottom: 30px;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Savings calculator",
+	"tag": "section",
+    "settings": [		
+		{
+			"type": "text",
+			"id": "bg_shape",
+			"label": "Background shape",
+			"info": "Upload the shape SVG into files and paste the file URL here."
+		},
+		{
+			"type": "text",
+			"id": "mobile_bg_shape",
+			"label": "Mobile background shape",
+			"info": "Upload the shape SVG into files and paste the file URL here."
+		},
+		{
+			"type": "header",
+			"content": "section info"
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "richtext",
+			"id": "info",
+			"label": "Info"
+		},
+		{
+			"type": "header",
+			"content": "calculator info"
+		},
+		{
+			"type": "checkbox",
+			"id": "enable_calculator",
+			"label": "Enable Calculator",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "field_placeholder",
+			"label": "Field placeholder text",
+			"default": "Number of nappies"
+		},
+		{
+			"type": "text",
+			"id": "btn_label",
+			"label": "Button text",
+			"default": "calculate"
+		},
+		{
+			"type": "header",
+			"content": "section image"
+		},
+		{
+          "type": "select",
+          "id": "image_position",
+          "options": [
+            {
+              "value": "Right",
+              "label": "Right"
+            },
+			{
+              "value": "Left",
+              "label": "Left"
+            }
+          ],
+          "default": "Right",
+          "label": "Image position"          
+        },
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+		}
+	],	
+	"presets": [
+      {
+        "name": "Savings calculator"
+      }
+    ]
+  }
+{% endschema %}

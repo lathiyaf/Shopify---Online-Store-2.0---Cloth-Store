@@ -1,0 +1,103 @@
+<div class="collection_column">
+  <div class="collection_column_inner">
+    {% if section.settings.section_title != blank %}
+    <div class="section_header text-center">
+      <h2>{{ section.settings.section_title }}</h2>
+      {% if section.settings.section_info != blank %}
+      <div class="richtext">
+        {{ section.settings.section_info }}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+    <div class="collection_column_start">
+      <div class="collection_column_row grid grid--1-col grid--3-col-tablet p-0">
+        {% for block in section.blocks %}
+        {% if block.settings.collection != blank %}
+        {% assign collection = block.settings.collection %}          		
+        <div class="grid__item">
+          <div class="collection_column_card text-center">                    
+            <a href="{{ collection.url }}" class="collection_column_card_full_link text_decoration_none">              
+              <div class="collection_column_card_image">
+                <img width="100%" height="100%" class="object_cover" src="{% if block.settings.image != blank %}{{ block.settings.image | img_url : 'master' }}{% else %}{{ collection.featured_image | img_url: 'master' }}{% endif %}" alt="{{ collection.featured_image.alt }}"/>
+              </div>   
+              <div class="collection_column_card_info{% if section.settings.enable_overlay != blank %} image_overlay position-relative{% endif %}">
+                <div class="collection_column_link_info">
+                	<h3 class="h2_style white_color">{% if block.settings.title != blank %}{{ block.settings.title }}{% else %}{{ collection.title }}{% endif %}</h3>
+                  	{% if block.settings.link_label != blank %}
+                  		<span class="link_label white_color text-uppercase">{{ block.settings.link_label }}</span>
+                  	{% endif %}
+                </div>
+              </div>                                          
+            </a>                                 
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Collection column",
+	"tag": "section",	
+    "settings": [		
+		{
+			"type": "header",
+			"content": "section header"
+		},
+		{
+			"type": "text",
+			"id": "section_title",
+			"label": "Section title"
+		},
+		{
+			"type": "richtext",
+			"id": "section_info",
+			"label": "Section info"
+		},
+		{
+			"type": "checkbox",
+			"id": "enable_overlay",
+			"label": "Enable image overlay"
+		}
+	],
+	"blocks": [
+		{
+			"type": "collectionColumn",
+			"name": "Collection column",
+            "settings":[
+				{
+                    "type": "collection",
+                    "id": "collection",
+                    "label": "Choose the collection"
+                },
+				{
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image",
+					"info": "The default will be collection Image. Use 428X428 Dimension image"
+                },
+				{
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title",
+					"info": "The default will be collection title."
+                },
+				{
+                    "type": "text",
+                    "id": "link_label",
+                    "label": "Link Label",
+					"default": "view products"
+                }
+			]
+		}
+	],
+	"presets": [
+      {
+        "name": "Collection column"
+      }
+    ]
+  }
+{% endschema %}

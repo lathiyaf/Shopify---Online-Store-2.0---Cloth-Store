@@ -1,0 +1,126 @@
+<div class="download_guide">
+  <div class="download_guide_inner">
+    <div class="download_guide_start">
+      <div class="grid grid--1-col grid--2-col-desktop{% if section.settings.image_position == 'Left' %} column_reverse{% endif %}">
+        <div class="grid__item d-flex align-items-center justify-content-center{% if section.settings.bg_shape != blank %} column_bg_shape{% endif %}"{% if section.settings.bg_shape != blank %} style="background-image:url('{{ section.settings.bg_shape }}');"{% endif %}>
+          <div class="download_guide_info text-center">
+          	{% if section.settings.title != blank %}
+            <div class="section_header mb-4">
+              <h2>{{ section.settings.title }}</h2>
+              {% if section.settings.info != blank %}
+              <div class="richtext fs_16">
+                  {{ section.settings.info }}
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+            <div class="download_form">
+              {%- form 'customer', id: 'downloadForm' -%}              	                
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="newsletter-form__field-wrapper">
+                  <input  class="littlelambs_fields mb-3" type="email"
+                       name="contact[email]"
+                       id="Email"
+                       value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+                       placeholder="{{ section.settings.field_placeholder }}"
+                       autocorrect="off"
+                       autocapitalize="off" required>                                                               
+                  <button name="commit" id="downloadSubscribe" class="button button--primary w-100" type="submit">{{ section.settings.btn_label }}</button>
+                  {%- if form.errors -%}
+                  <small class="newsletter-form__message form__message" id="ContactFooter-error">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</small>
+                  {%- endif -%}
+                </div>
+                {%- if form.posted_successfully? -%}
+                <small class="newsletter-form__message newsletter-form__message--success form__message" id="ContactFooter-success">{% render 'icon-success' %}{{ 'newsletter.success' | t }}</small>
+                {%- endif -%}
+              {%- endform -%}              
+            </div>
+          </div>
+        </div>
+        {% if section.settings.image != blank %}
+        <div class="grid__item">
+          <div class="download_guide_image">
+          	<img class="w-100 object_cover" src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt }}" />
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Download Guide",
+	"tag": "section",
+    "settings": [		
+		{
+			"type": "text",
+			"id": "bg_shape",
+			"label": "Background shape",
+			"info": "Upload the shape SVG into files and paste the file URL here."
+		},
+		{
+			"type": "header",
+			"content": "section info"
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "richtext",
+			"id": "info",
+			"label": "Info"
+		},
+		{
+			"type": "header",
+			"content": "download info"
+		},
+		{
+			"type": "text",
+			"id": "field_placeholder",
+			"label": "Field placeholder text",
+			"default": "Enter your email"
+		},
+		{
+			"type": "text",
+			"id": "btn_label",
+			"label": "Button text",
+			"default": "Download Cloth Nappy Guide"
+		},			
+		{
+			"type": "header",
+			"content": "section image"
+		},
+		{
+          "type": "select",
+          "id": "image_position",
+          "options": [
+            {
+              "value": "Right",
+              "label": "Right"
+            },
+			{
+              "value": "Left",
+              "label": "Left"
+            }
+          ],
+          "default": "Right",
+          "label": "Image position"          
+        },
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+		}
+	],	
+	"presets": [
+      {
+        "name": "Download Guide"
+      }
+    ]
+  }
+{% endschema %}

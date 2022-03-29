@@ -1,0 +1,120 @@
+<div class="feature_row_block{% if section.settings.mobile_hide %} small-hide{% endif %}{% if section.settings.bg_shape != blank %} full_bg_shape{% endif %}"{% if section.settings.bg_shape != blank %} style="background-image:url('{{ section.settings.bg_shape }}');"{% endif %}>
+  <div class="feature_row_block_inner page-width">
+    <div class="feature_row_block_start">
+      {% for block in section.blocks %}
+      	<div class="section_start">
+          <div class="grid align-items-center grid--1-col grid--2-col-tablet{% if block.settings.image_position == 'Left' %} column_reverse{% endif %}">
+            <div class="grid__item feature_info_grid">
+              <div class="feature_row_block_info">
+                  {% if block.settings.subtitle != blank %}
+                      <h6 class="text-uppercase fs_14">{{ block.settings.subtitle }}</h6>
+                  {% endif %}
+                  {% if block.settings.title != blank %}
+                      <h3 class="h3_size my-3 primary_dark_color">{{ block.settings.title }}</h3>
+                  {% endif %}
+                  {% if block.settings.info != blank %}
+                  <div class="richtext fs_16">
+                      {{ block.settings.info }}
+                  </div>
+                  {% endif %}
+              </div>
+            </div>
+            {% if block.settings.image != blank %}
+            <div class="grid__item feature_image_grid">
+              <div class="feature_row_block_image">
+                <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.image.alt }}" />
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>  
+    .feature_row_block {
+      background-size: cover;
+      background-position: bottom right;
+      background-repeat: no-repeat;
+    }
+</style>
+
+{% schema %}
+  {
+    "name": "Feature row block",
+	"tag": "section",
+    "settings": [
+		{
+          "type": "checkbox",
+          "id": "mobile_hide",
+          "label": "Hide the section in mobile",
+		  "default": true
+        },
+		{
+			"type": "text",
+			"id": "bg_shape",
+			"label": "Background shape",
+			"info": "Upload the shape SVG into files and paste the file URL here."
+		}
+	],
+	"blocks":[
+		{
+			"type":"featureBlock",
+			"name": "Feature Block",
+			"settings":[
+				{
+                    "type": "header",
+                    "content": "Feature info"                    
+                },
+				{
+                    "type": "text",
+                    "id": "subtitle",
+                    "label": "Subtitle"
+                },
+				{
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title"
+                },
+                {
+                    "type": "richtext",
+                    "id": "info",
+                    "label": "Info"
+                },
+				{
+                    "type": "header",
+                    "content": "Feature info"                    
+                },
+				{
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+				{
+                  "type": "select",
+                  "id": "image_position",
+                  "options": [
+                    {
+                      "value": "Right",
+                      "label": "Right"
+                    },
+                    {
+                      "value": "Left",
+                      "label": "Left"
+                    }
+                  ],
+                  "default": "Right",
+                  "label": "Image position"          
+                }
+			]
+		}
+	],	
+	"presets": [
+      {
+        "name": "Feature row block"
+      }
+    ]
+  }
+{% endschema %}

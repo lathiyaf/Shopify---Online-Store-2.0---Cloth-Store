@@ -1,0 +1,119 @@
+<div class="feature_column">
+  <div class="section_start feature_column_inner{% if section.settings.bg_shape != blank %} full_bg_shape{% endif %}"{% if section.settings.bg_shape != blank %} style="background-image:url('{{ section.settings.bg_shape }}');"{% endif %}>
+    <div class="page-width">
+      {% if section.settings.section_title != blank %}
+      <div class="section_header text-center">
+        <h2>{{ section.settings.section_title }}</h2>
+        {% if section.settings.section_info != blank %}
+        <div class="richtext">
+        	{{ section.settings.section_info }}
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+      <div class="feature_column_start">
+        <div class="feature_column_row grid grid--1-col grid--2-col-tablet grid--4-col-desktop">
+        	{% for block in section.blocks %}
+          		<div class="grid__item">
+                  <div class="feature_column_card text-center">
+                    {% if block.settings.column_icon != blank %}
+                    <div class="feature_column_icon">
+                    	{{ block.settings.column_icon }}
+                    </div>
+                    {% endif %}                    
+                    <div class="feature_column_info">
+                      {% if block.settings.title != blank %}
+                      <h6 class="text-uppercase">{{ block.settings.title }}</h6>
+                      {% endif %}
+                      {% if block.settings.info != blank %}
+                      <div class="richtext fs_14">
+                      	{{ block.settings.info }}
+                      </div>
+                      {% endif %}
+                    </div>                   
+                  </div>
+          		</div>
+          	{% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media(max-width:767px){
+    .feature_column_inner{
+      background-image:url({{ section.settings.mobile_bg_shape }}) !important;
+      background-size: contain;
+      background-position: bottom;
+      background-repeat: no-repeat;
+      padding-bottom: 0;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Featured column",
+	"tag": "section",
+    "settings": [
+		{
+			"type": "text",
+			"id": "bg_shape",
+			"label": "Background shape",
+			"info": "Upload the shape SVG into files and paste the file URL here."
+		},
+		{
+			"type": "text",
+			"id": "mobile_bg_shape",
+			"label": "Mobile background shape",
+			"info": "Upload the shape SVG into files and paste the file URL here."
+		},
+		{
+			"type": "header",
+			"content": "section header"
+		},
+		{
+			"type": "text",
+			"id": "section_title",
+			"label": "Section title"
+		},
+		{
+			"type": "richtext",
+			"id": "section_info",
+			"label": "Section info"
+		}
+	],
+	"blocks": [
+		{
+			"type": "featureColumn",
+			"name": "Feature Column",
+            "settings":[
+				{
+                    "type": "html",
+                    "id": "column_icon",
+                    "label": "Icon code",
+					"info": "Use Only SVG code"
+                },
+				{
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title",
+					"default": "Littlelamb"
+                },
+				{
+                    "type": "richtext",
+                    "id": "info",
+                    "label": "Info",
+					"default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>"
+                }
+			]
+		}
+	],
+	"presets": [
+      {
+        "name": "Featured column"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,79 @@
+<div class="logo_slider py-4">
+  <div class="logo_slider_inner">
+    <div class="page-width">
+      {% if section.settings.section_title != blank %}
+      <div class="section_header text-center">
+        <h2>{{ section.settings.section_title }}</h2>
+        {% if section.settings.section_info != blank %}
+        <div class="richtext">
+        	{{ section.settings.section_info }}
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+      <div class="logo_slider_start">
+        <ul class="logo_column_row list-unstyled grid grid--4-col-tablet align-items-center">
+        	{% for block in section.blocks %}
+          		{% if block.settings.logo_img != blank %}
+          		<li class="logo_column grid__item">
+                  {% if block.settings.logo_link != blank %}
+                  <a href="{{ block.settings.logo_link }}">
+                  {% endif %}
+                  	<img src="{{ block.settings.logo_img | img_url: 'x42' }}" alt="{{ block.settings.logo_img.alt }}"/>
+                  {% if block.settings.logo_link != blank %}  
+                  </a>
+                  {% endif %}
+          		</li>
+          		{% endif %}
+          	{% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Logo Slider",
+	"tag": "section",
+    "settings": [
+		{
+			"type": "header",
+			"content": "section header"
+		},
+		{
+			"type": "text",
+			"id": "section_title",
+			"label": "Section title"
+		},
+		{
+			"type": "richtext",
+			"id": "section_info",
+			"label": "Section info"
+		}
+	],
+	"blocks": [
+		{
+			"type": "logoSlider",
+			"name": "Logo Slider",
+            "settings":[
+				{
+                    "type": "image_picker",
+                    "id": "logo_img",
+                    "label": "Logo Image"
+                },
+				{
+                    "type": "text",
+                    "id": "logo_link",
+                    "label": "Logo URL",
+					"info": "Add a URL here if you wanna redirect on logo click."
+                }
+			]
+		}
+	],
+	"presets": [
+      {
+        "name": "Logo Slider"
+      }
+    ]
+  }
+{% endschema %}

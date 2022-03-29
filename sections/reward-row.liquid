@@ -1,0 +1,178 @@
+<div class="reward_row">
+  <div class="reward_row_inner">
+    <div class="reward_row_start">
+      <div class="grid grid--1-col grid--2-col-desktop{% if section.settings.image_position == 'Left' %} column_reverse{% endif %}">
+        <div class="grid__item d-flex align-items-center justify-content-center{% if section.settings.bg_shape != blank %} column_bg_shape{% endif %}"{% if section.settings.bg_shape != blank %} style="background-image:url('{{ section.settings.bg_shape }}');"{% endif %}>
+          <div class="reward_row_info text-center w-100">
+          	{% if section.settings.title != blank %}
+            <div class="section_header">
+              <h4 class="primary_dark_color h4_size mb-0">{{ section.settings.title }}</h4>
+              {% if section.settings.info != blank %}
+              <div class="richtext">
+                  {{ section.settings.info }}
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}    
+            <div class="reward_info_row grid grid--1-col grid--3-col-tablet">
+                {% for block in section.blocks %}
+                    <div class="grid__item">
+                      <div class="reward_info_card text-center">
+                        {% if block.settings.reward_icon != blank %}
+                        <div class="reward_info_icon">
+                            {{ block.settings.reward_icon }}
+                        </div>
+                        {% endif %}                    
+                        <div class="reward_card_bottom_info">
+                          {% if block.settings.title != blank %}
+                          <h6 class="text-uppercase primary_dark_color">{{ block.settings.title }}</h6>
+                          {% endif %}
+                          {% if block.settings.info != blank %}
+                          <div class="richtext fs_14">
+                            {{ block.settings.info }}
+                          </div>
+                          {% endif %}
+                        </div>                   
+                      </div>
+                    </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% if section.settings.image != blank %}
+        <div class="grid__item">
+          <div class="reward_row_image"{% if section.settings.image_height != blank %} style="height:{{ section.settings.image_height }}px;"{% endif %}>
+          	<img class="h-100 w-100 object_cover" src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt }}" />
+            <div class="reward_row_image_info center">
+              {% if section.settings.image_subtitle != blank %}
+              	<h6 class="white_color m-0 uppercase fs_14">{{ section.settings.image_subtitle }}</h6>
+              {% endif %}
+              {% if section.settings.image_title != blank %}
+              	<h3 class="white_color h2_style">{{ section.settings.image_title }}</h3>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% style %}
+@media(max-width:767px){
+  .reward_row_image{
+      height:{{ section.settings.mobile_image_height }}px !important;
+  }
+}
+{% endstyle %}
+
+
+{% schema %}
+  {
+    "name": "Reward Guide",
+	"tag": "section",
+    "settings": [		
+		{
+			"type": "text",
+			"id": "bg_shape",
+			"label": "Background shape",
+			"info": "Upload the shape SVG into files and paste the file URL here."
+		},
+		{
+			"type": "header",
+			"content": "section info"
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "richtext",
+			"id": "info",
+			"label": "Info"
+		},		
+		{
+			"type": "header",
+			"content": "section image"
+		},
+		{
+          "type": "select",
+          "id": "image_position",
+          "options": [
+            {
+              "value": "Right",
+              "label": "Right"
+            },
+			{
+              "value": "Left",
+              "label": "Left"
+            }
+          ],
+          "default": "Right",
+          "label": "Image position"          
+        },
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+		},
+		{
+          "type":"text",
+          "id":"image_height",
+          "label": "Image Height",
+          "default": "700",
+          "info": "Don't Include PX"
+        },
+		{
+          "type":"text",
+          "id":"mobile_image_height",
+          "label": "Mobile image Height",
+          "default": "300",
+          "info": "Don't Include PX"
+        },
+		{
+			"type": "text",
+			"id": "image_subtitle",
+			"label": "Image subtitle"
+		},
+		{
+			"type": "text",
+			"id": "image_title",
+			"label": "Image title"
+		}
+	],
+	"blocks": [
+		{
+			"type": "rewardPoints",
+			"name": "Reward points",
+            "settings":[
+				{
+                    "type": "html",
+                    "id": "reward_icon",
+                    "label": "Icon code",
+					"info": "Use Only SVG code"
+                },
+				{
+                    "type": "text",
+                    "id": "title",
+                    "label": "Reward Title",
+					"default": "Littlelamb"
+                },
+				{
+                    "type": "richtext",
+                    "id": "info",
+                    "label": "Reward Info",
+					"default": "<p>50 points</p>"
+                }
+			]
+		}
+	],
+	"presets": [
+      {
+        "name": "Reward Guide"
+      }
+    ]
+  }
+{% endschema %}

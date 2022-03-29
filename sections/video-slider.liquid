@@ -1,0 +1,87 @@
+<div class="video_slider{% if section.settings.mobile_hide %} small-hide{% endif %}">
+  <div class="video_slider_inner section_start pb-4"{% if section.settings.bg_color != blank %} style="background-color:{{ section.settings.bg_color }}"{% endif %}>
+    <div class="page-width">
+      {% if section.settings.section_title != blank %}
+      <div class="section_header text-center">
+        <h2>{{ section.settings.section_title }}</h2>
+        {% if section.settings.section_info != blank %}
+        <div class="richtext">
+        	{{ section.settings.section_info }}
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+      <div class="video_slider_start">
+        <div class="video_slider_row list-unstyled grid grid--2-col-tablet align-items-center justify-content-center">
+        	{% for block in section.blocks %}
+              {% if block.settings.video_url != blank %}
+              <div class="grid__item mb-3 px-3">
+                <div class="video_slider_card">
+                  {% if block.settings.video_url contains 'youtube' %}
+                      {{ block.settings.video_url }}
+                  {% else %}
+                  <video width="100%" height="400" controls>
+                    <source src="{{ block.settings.video_url }}" type="video/mp4">
+                  </video>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+          	{% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Video slider",
+	"tag": "section",	
+    "settings": [
+		{
+          "type": "checkbox",
+          "id": "mobile_hide",
+          "label": "Hide the section in mobile",
+		  "default": true
+        },
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background color"
+		},
+		{
+			"type": "header",
+			"content": "section header"
+		},
+		{
+			"type": "text",
+			"id": "section_title",
+			"label": "Section title"
+		},
+		{
+			"type": "richtext",
+			"id": "section_info",
+			"label": "Section info"
+		}
+	],
+	"blocks": [
+		{
+			"type": "videoslide",
+			"name": "Video Slide",
+            "settings":[
+				{
+                    "type": "html",
+                    "id": "video_url",
+                    "label": "Video URL",
+					"info": "You Can Enter Youtube Or Store Files Video URL Here."
+                }
+			]
+		}
+	],
+	"presets": [
+      {
+        "name": "Video slider"
+      }
+    ]
+  }
+{% endschema %}
